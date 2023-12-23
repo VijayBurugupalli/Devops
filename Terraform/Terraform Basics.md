@@ -54,7 +54,7 @@ Terraform can also be used with multiple resources and multiple providers, in ca
 Terraform variables are used when we need to parameterize the values of resources so that we don't need to hard code same code every time. There are two types of variables in terraform
 1. Input Variables
 2. Output Variables
-#### 1.Input Variable
+### 1.Input Variable
 Input variables are used to give a paramneterized input while creating a resource in terraform. It can be a local input variable or it can be created in seperate vaiables.tf file.
 **local**
 ```
@@ -148,7 +148,7 @@ resource "aws_network_interface" "my_nic" {
  }
 }
 ```
-####2.Output Variables
+### 2.Output Variables
 Output variables in Terraform are used to display the required information in the console output after a successful application of configuration for the root module. To declare an output variable, write the following configuration block into the Terraform configuration files.
 ```
 output "instance_id" {
