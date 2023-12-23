@@ -39,3 +39,14 @@ Terraform apply executes the plan that is created, comparing the current and des
 #### Terraform Destroy
 Terraform destroy will delete all resources that are created/managed by the Terraform environment you are working in.
 `terraform destroy`
+
+#### Terraform Providers
+Terraform providers are the plugins that are used in terraform in order to create the resources. Here are some of the popular providers:
+* AWS
+* Azure
+* GCP
+* Alibaba
+* Kubernetes
+* Oracle
+
+Terraform can also be used with multiple resources and multiple providers, in case of multiple resources use **alias** to specify a particular resource.
