@@ -50,3 +50,113 @@ Terraform providers are the plugins that are used in terraform in order to creat
 * Oracle
 
 Terraform can also be used with multiple resources and multiple providers, in case of multiple resources use **alias** to specify a particular resource.
+#### Terraform Variables
+Terraform variables are used when we need to parameterize the values of resources so that we don't need to hard code same code every time. There are two types of variables in terraform
+1. Input Variables
+2. Output Variables
+##### 1.Input Variable
+Input variables are used to give a paramneterized input while creating a resource in terraform. It can be a local input variable or it can be created in seperate vaiables.tf file.
+**local**
+```
+locals {
+ ami  = "ami-0d26eb3972b7f8c96"
+ type = "t2.micro"
+ tags = {
+   Name = "My Virtual Machine"
+   Env  = "Dev"
+ }
+ subnet = "subnet-76a8163a"
+ nic    = aws_network_interface.my_nic.id
+}
+ 
+resource "aws_instance" "myvm" {
+ ami           = local.ami
+ instance_type = local.type
+ tags          = local.tags
+ 
+ network_interface {
+   network_interface_id = aws_network_interface.my_nic.id
+   device_index         = 0
+ }
+}
+ 
+resource "aws_network_interface" "my_nic" {
+ description = "My NIC"
+ subnet_id   = var.subnet
+ 
+ tags = {
+   Name = "My NIC"
+ }
+}
+```
+**different**
+```
+variable "ami" {
+ type        = string
+ description = "AMI ID for the EC2 instance"
+ default     = "ami-0d26eb3972b7f8c96"
+ 
+ validation {
+   condition     = length(var.ami) > 4 && substr(var.ami, 0, 4) == "ami-"
+   error_message = "Please provide a valid value for variable AMI."
+ }
+} 
+
+variable "type" {
+ type        = string
+ description = "Instance type for the EC2 instance"
+ default     = "t2.micro"
+ sensitive   = true
+}
+ 
+variable "tags" {
+ type = object({
+   name = string
+   env  = string
+ })
+ description = "Tags for the EC2 instance"
+ default = {
+   name = "My Virtual Machine"
+   env  = "Dev"
+ }
+}
+ 
+variable "subnet" {
+ type        = string
+ description = "Subnet ID for network interface"
+ default     = "subnet-76a8163a"
+}
+```
+```
+resource "aws_instance" "myvm" {
+ ami           = var.ami
+ instance_type = var.type
+ tags          = var.tags
+ 
+ network_interface {
+   network_interface_id = aws_network_interface.my_nic.id
+   device_index         = 0
+ }
+}
+ 
+resource "aws_network_interface" "my_nic" {
+ description = "My NIC"
+ subnet_id   = var.subnet
+ 
+ tags = {
+   Name = "My NIC"
+ }
+}
+```
+##### 2.Output Variables
+Output variables in Terraform are used to display the required information in the console output after a successful application of configuration for the root module. To declare an output variable, write the following configuration block into the Terraform configuration files.
+```
+output "instance_id" {
+ value       = aws_instance.myvm.id
+ description = "AWS EC2 instance ID"
+ sensitive   = false
+}
+```
+#### Conditional Expression
+A conditional expression uses the value of a boolean expression to select one of two values.
+`condition ? true_val : false_val`
