@@ -40,7 +40,7 @@ Terraform apply executes the plan that is created, comparing the current and des
 Terraform destroy will delete all resources that are created/managed by the Terraform environment you are working in.
 `terraform destroy`
 
-#### Terraform Providers
+## Terraform Providers
 Terraform providers are the plugins that are used in terraform in order to create the resources. Here are some of the popular providers:
 * AWS
 * Azure
@@ -50,7 +50,7 @@ Terraform providers are the plugins that are used in terraform in order to creat
 * Oracle
 
 Terraform can also be used with multiple resources and multiple providers, in case of multiple resources use **alias** to specify a particular resource.
-#### Terraform Variables
+## Terraform Variables
 Terraform variables are used when we need to parameterize the values of resources so that we don't need to hard code same code every time. There are two types of variables in terraform
 1. Input Variables
 2. Output Variables
@@ -157,6 +157,6 @@ output "instance_id" {
  sensitive   = false
 }
 ```
-#### Conditional Expression
+## Conditional Expression
 A conditional expression uses the value of a boolean expression to select one of two values.
 `condition ? true_val : false_val`
